@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "134662306442",
+    "firebase_url": "https://foodyumt.firebaseio.com",
+    "project_id": "foodyumt",
+    "storage_bucket": "foodyumt.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:134662306442:android:65a8d2e3e5ee6973640b73",
+        "android_client_info": {
+          "package_name": "com.kamarulkhairi.foody_umt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "134662306442-l2v825odqlma8cven2pcfvsa7dhib320.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9hHJRe0dHO0T_W6G12SVDshCvYzdc4hU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "134662306442-l2v825odqlma8cven2pcfvsa7dhib320.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

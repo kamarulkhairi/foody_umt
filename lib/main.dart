@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:custom_splash/custom_splash.dart';
-import 'package:foody_umt/home_page.dart';
+import 'package:foody_umt/screens/home_page.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:foody_umt/screens/landing-page.dart';
+import 'package:foody_umt/screens/login.dart';
+import 'package:foody_umt/screens/register.dart';
 
 void main() {
   Function duringSplash = () {
+    WidgetsFlutterBinding.ensureInitialized();
+    Firebase.initializeApp();
+
     print('Something background process');
     int a = 123 + 23;
     print(a);
@@ -38,14 +45,22 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        theme: ThemeData(
-          primaryColor: Color(0xffFFD700),
-          primaryColorBrightness: Brightness.dark,
-          accentColor: Color(0xff7A39D9),
-          backgroundColor: Color(0xffF9F9E9),
-          accentColorBrightness: Brightness.dark,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
-        home: HomePage());
+      initialRoute: LandingPage.id,
+      routes: {
+        HomePage.id: (context) => HomePage(),
+        LoginPage.id: (context) => LoginPage(),
+        RegisterPage.id: (context) => RegisterPage(),
+        LandingPage.id: (context) => LandingPage()
+      },
+      theme: ThemeData(
+        primaryColor: Color(0xffFFD700),
+        primaryColorBrightness: Brightness.dark,
+        scaffoldBackgroundColor: Color(0xffF9F9E9),
+        accentColor: Color(0xff7A39D9),
+        backgroundColor: Color(0xffF9F9E9),
+        accentColorBrightness: Brightness.dark,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+    );
   }
 }

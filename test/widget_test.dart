@@ -28,3 +28,47 @@ void main() {
     expect(find.text('1'), findsOneWidget);
   });
 }
+// Column(
+//         mainAxisAlignment: MainAxisAlignment.center,
+//         children: <Widget>[
+//           TextField(
+//             keyboardType: TextInputType.emailAddress,
+//             textAlign: TextAlign.center,
+//             onChanged: (value) {
+//               email = value;
+//               print(email);
+//             },
+//           ),
+//           TextField(
+//             obscureText: true,
+//             textAlign: TextAlign.center,
+//             onChanged: (value) {
+//               password = value;
+//             },
+//           ),
+//           FloatingActionButton(
+//               child: Text(
+//                 'Register',
+//                 textAlign: TextAlign.center,
+//               ),
+//               onPressed: () async {
+//                 try {
+//                   UserCredential newUser =
+//                       await _auth.createUserWithEmailAndPassword(
+//                           email: email, password: password);
+//                   print(newUser);
+//                   if (newUser != null) {
+//                     Navigator.pushNamed(context, HomePage.id);
+//                   }
+//                 } on FirebaseAuthException catch (err) {
+//                   if (err.code == 'weak-password') {
+//                     print('password is to weak');
+//                   } else if (err.code == 'email-already-in-use') {
+//                     print('account existed');
+//                   }
+//                 } catch (err) {
+//                   print(err.toString());
+//                 }
+//               })
+//         ],
+//       ),
