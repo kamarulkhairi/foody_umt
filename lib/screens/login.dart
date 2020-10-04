@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:foody_umt/components/background.dart';
+
+import 'package:foody_umt/components/rounded-button.dart';
+import 'package:foody_umt/components/rounded-passwordfield.dart';
+import 'package:foody_umt/components/text-container.dart';
 import 'package:foody_umt/screens/home_page.dart';
+
+import 'package:foody_umt/screens/register.dart';
+import 'package:foody_umt/components/account-check.dart';
 
 class LoginPage extends StatefulWidget {
   static String id = 'login_page';
@@ -15,47 +24,72 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          TextField(
-            keyboardType: TextInputType.emailAddress,
-            textAlign: TextAlign.center,
-            onChanged: (value) {
-              email = value;
-            },
-          ),
-          TextField(
-            obscureText: true,
-            textAlign: TextAlign.center,
-            onChanged: (value) {
-              password = value;
-            },
-          ),
-          FloatingActionButton(
-              child: Text(
+      body: Background(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
                 'Login',
-                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              onPressed: () async {
-                try {
-                  UserCredential userCredential =
-                      await _auth.signInWithEmailAndPassword(
-                          email: email, password: password);
-                  if (userCredential != null) {
-                    Navigator.pushNamed(context, HomePage.id);
+              SvgPicture.asset(
+                'lib/images/login.svg',
+                height: size.height * 0.35,
+              ),
+              SizedBox(
+                height: size.height * 0.02,
+              ),
+              RoundedInputField(
+                hintText: 'Your Email',
+                icon: Icons.person,
+                onChanged: (value) {
+                  email=value;
+                },
+              ),
+              SizedBox(
+                height: size.height * 0.02,
+              ),
+              RoundedPasswordField(onchanged: (value) {
+                password=value;
+              }),
+              SizedBox(height: size.height * 0.03),
+              RoundedButton(
+                color: Theme.of(context).accentColor,
+                onpressed: () async{
+                   try {
+                    UserCredential userCredential =
+                        await _auth.signInWithEmailAndPassword(
+                            email: email, password: password);
+                    if (userCredential != null) {
+                      Navigator.pushNamed(context, HomePage.id);
+                    }
+                    
+                  } on FirebaseAuthException catch (e) {
+                    if (e.code == 'user-not-found') {
+                      print('No user found for that email.');
+                    } else if (e.code == 'wrong-password') {
+                      print('Wrong password provided for that user.');
+                    }
                   }
-                } on FirebaseAuthException catch (err) {
-                  if (err.code == 'user-not-found') {
-                    print('No user found for that email');
-                  } else if (err.code == 'wrong-password') {
-                    print('Wrong password provided');
-                  }
-                }
-              })
-        ],
+                },
+                text: 'LOGIN',
+                textColor: Colors.white,
+              ),
+              SizedBox(
+                height: size.height * 0.02,
+              ),
+              HaveAnAccountCheck(
+                login: true,
+                pressed: () {
+                  Navigator.pushNamed(context, RegisterPage.id);
+                },
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

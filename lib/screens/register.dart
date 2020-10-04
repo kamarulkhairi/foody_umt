@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'home_page.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:foody_umt/components/background.dart';
+import 'package:foody_umt/components/rounded-button.dart';
+import 'package:foody_umt/components/text-container.dart';
+import 'package:foody_umt/components/rounded-passwordfield.dart';
+import 'package:foody_umt/screens/home_page.dart';
+import 'package:foody_umt/screens/login.dart';
+import 'package:foody_umt/components/account-check.dart';
 
 class RegisterPage extends StatefulWidget {
   static String id = 'register-page';
@@ -16,51 +23,75 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          TextField(
-            keyboardType: TextInputType.emailAddress,
-            textAlign: TextAlign.center,
-            onChanged: (value) {
-              email = value;
-              print(email);
-            },
-          ),
-          TextField(
-            obscureText: true,
-            textAlign: TextAlign.center,
-            onChanged: (value) {
-              password = value;
-            },
-          ),
-          FloatingActionButton(
-              child: Text(
-                'Register',
-                textAlign: TextAlign.center,
-              ),
-              onPressed: () async {
+      body: BackgroundLogin(
+          child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text('REGISTER'),
+            SvgPicture.asset(
+              'lib/images/register.svg',
+              height: size.height * 0.35,
+            ),
+            SizedBox(
+              height: size.height * 0.03,
+            ),
+            RoundedInputField(
+              hintText: 'Your Email',
+              icon: Icons.person,
+              onChanged: (value) {
+                email=value;
+              },
+            ),
+            SizedBox(
+              height: size.height * 0.02,
+            ),
+            RoundedPasswordField(
+              onchanged: (value) {
+                password=value;
+              },
+            ),
+            SizedBox(height: size.height * 0.02),
+            RoundedButton(
+              color: Theme.of(context).accentColor,
+              onpressed: () async{
                 try {
-                  UserCredential newUser =
-                      await _auth.createUserWithEmailAndPassword(
-                          email: email, password: password);
-                  print(newUser);
-                  if (newUser != null) {
-                    Navigator.pushNamed(context, HomePage.id);
-                  }
-                } on FirebaseAuthException catch (err) {
-                  if (err.code == 'weak-password') {
-                    print('password is to weak');
-                  } else if (err.code == 'email-already-in-use') {
-                    print('account existed');
-                  }
-                } catch (err) {
-                  print(err.toString());
-                }
-              })
-        ],
-      ),
+                    UserCredential newUser =
+                        await _auth.createUserWithEmailAndPassword(
+                            email: email, password: password);
+                    if (newUser != null) {
+                      Navigator.pushNamed(context, HomePage.id);
+                    }
+                   
+                  }on FirebaseAuthException catch (e) {
+                      if (e.code == 'weak-password') {
+                        print('Password too weak');
+                      } else if (e.code == 'email-already-in-use') {
+                        print('Account already exixted');
+                      }
+                    } catch (e) {
+                      print(e.toString());
+                    }
+                  
+              },
+              text: 'Sign Up',
+              textColor: Colors.white,
+            ),
+            SizedBox(
+              height: size.height * 0.03,
+            ),
+            HaveAnAccountCheck(
+              login: false,
+              pressed: () {
+                Navigator.pushNamed(context, LoginPage.id);
+              },
+            ),
+          ],
+        ),
+      )),
     );
   }
 }
+
