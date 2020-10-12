@@ -10,6 +10,7 @@ import 'package:foody_umt/screens/home_page.dart';
 
 import 'package:foody_umt/screens/register.dart';
 import 'package:foody_umt/components/account-check.dart';
+import 'package:foody_umt/components/alert-dialog-message.dart';
 
 class LoginPage extends StatefulWidget {
   static String id = 'login_page';
@@ -69,9 +70,9 @@ class _LoginPageState extends State<LoginPage> {
                     
                   } on FirebaseAuthException catch (e) {
                     if (e.code == 'user-not-found') {
-                      print('No user found for that email.');
+                      showAlertMessage(context, 'User not found', 'Please create a new account');
                     } else if (e.code == 'wrong-password') {
-                      print('Wrong password provided for that user.');
+                      showAlertMessage(context, 'Wrong password', 'Please check your password carefully');
                     }
                   }
                 },
